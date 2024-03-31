@@ -10,7 +10,7 @@
                                     <li 
                                         wire:key='{{$note->id}}'
                                     class="list-group-item d-flex justify-content-between align-items-center">
-                                        <p>
+                                        <p @class(['text-decoration-line-through' => $note->done])>
                                             {{$note->body}}
                                         </p>
                                         <div class="dropdown ms-auto">
@@ -22,7 +22,9 @@
                                                     wire:click='editNote({{$note->id}})' style="cursor:pointer">
                                                     <i class="fas fa-edit text-warning"></i>
                                                     </span>
-                                                    <span class="dropdown-item" style="cursor:pointer">
+                                                    <span class="dropdown-item"
+                                                    wire:click="deleteNote({{ $note->id }})"
+                                                    wire:confirm='Are you sure???'  style="cursor:pointer">
                                                     <i class="fas fa-trash text-danger"></i>
                                                     </span>
                                                 </li>
@@ -43,10 +45,23 @@
                             placeholder="Start typing..."></textarea>
                         </div>
                         <div class="card-footer bg-white d-flex justify-content-between">
+                            @if($updating)
+                                @if(!$ToUpdate->done)
+                                    <button class="btn btn-sm btn-success"
+                                    wire:click='noteDone'>
+                                    <i class="fas fa-check-double"></i>
+                                    </button>
+                                @endif
+                            <button class="btn btn-sm btn-warning"
+                                wire:click='updateNote'>
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            @else
                             <button class="btn btn-sm btn-dark"
                                 wire:click='saveNote'>
                                 <i class="fas fa-paper-plane"></i>
                             </button>
+                            @endif
                         </div>
                     </div>
                 </div>
