@@ -42,7 +42,11 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    
+                    @if (session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <div class="card">
                         <div class="card-body">
                             <textarea name="body" class="form-control @error('body') is-invalid @enderror" id="" 

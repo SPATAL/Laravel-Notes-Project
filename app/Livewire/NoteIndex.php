@@ -14,7 +14,6 @@ class NoteIndex extends Component
 
     #[Validate('required',message:'Please provide the content of the note')]
     public $body;
-    public $message;
     public $updating = false;
     public $ToUpdate;
     public $deleteId = '';
@@ -24,8 +23,7 @@ class NoteIndex extends Component
             $validated = $this->validate();
             Note::create($validated);
         $this->clearForm();
-        $this->message = 'Note added successfully!!';
-        $tst = $this->message;
+        session()->flash('message', 'Note Added successfully.');
         
         
         
@@ -41,6 +39,7 @@ class NoteIndex extends Component
     public function updateNote(){
         $validated = $this->validate();
         $this->ToUpdate->update($validated);
+        session()->flash('message', 'Note updated successfully.');
         $this->clearForm();
     }
 
@@ -48,12 +47,13 @@ class NoteIndex extends Component
         $this->ToUpdate->update([
            'done' => 1
         ]);
+        session()->flash('message', 'Congratulation, The Note is done.');
         $this->clearForm();
         
     }
     public function deleteNote(Note $note){
         $note->delete();
-        $this->message = 'Note deleted successfully!!';
+        session()->flash('message', 'Note deleted successfully.');
         $this->clearForm();
     }
 
