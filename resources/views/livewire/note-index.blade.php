@@ -5,7 +5,8 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            <ul class="list-group">
+                            <h4 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Notes List</h4>
+                            <ul class="list-group mb-3">
                                 @foreach ($notes as $note)
                                     <li 
                                         wire:key='{{$note->id}}'
@@ -14,7 +15,7 @@
                                             {{$note->body}}
                                         </p>
                                         <div class="dropdown ms-auto">
-                                            <i class="fa-solid fa-ellipsis-vertical"
+                                            <i class="hover-shadow p-3 fa-solid fa-ellipsis-vertical"
                                             data-bs-toggle='dropdown'></i>
                                             <ul class="dropdown-menu">
                                                 <li>
@@ -33,19 +34,32 @@
                                     </li>
                                 @endforeach
                             </ul>
+                            <div class="d-flex justify-content-center">
+                                {{$notes->links()}}
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-md-6">
-                    {{$message}}
+                    
                     <div class="card">
                         <div class="card-body">
-                            <textarea name="body" class="form-control" id="" 
+                            <textarea name="body" class="form-control @error('body') is-invalid @enderror" id="" 
                             cols="30" rows="10" wire:model='body'
                             placeholder="Start typing..."></textarea>
+                            @error('body')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                            @enderror
                         </div>
                         <div class="card-footer bg-white d-flex justify-content-between">
                             @if($updating)
+                                <button class="btn btn-sm btn-primary"
+                                    wire:click='clearForm'>
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
                                 @if(!$ToUpdate->done)
                                     <button class="btn btn-sm btn-success"
                                     wire:click='noteDone'>
@@ -57,7 +71,7 @@
                                 <i class="fas fa-edit"></i>
                             </button>
                             @else
-                            <button class="btn btn-sm btn-dark"
+                            <button class="btn btn-sm btn-primary"
                                 wire:click='saveNote'>
                                 <i class="fas fa-paper-plane"></i>
                             </button>
